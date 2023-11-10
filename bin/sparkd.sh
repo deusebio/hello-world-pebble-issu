@@ -15,8 +15,8 @@ echo "Running script with ${FLAVOUR} flavour"
 
 case "${FLAVOUR}" in
   driver|executor)
-    pushd /opt/spark
-    source ./entrypoint.sh "$@"
+    pushd /opt/spark/bin
+    ./entrypoint.sh "$@"
     ;;
   *)
     exit 1

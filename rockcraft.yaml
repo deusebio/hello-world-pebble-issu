@@ -8,6 +8,8 @@ base: ubuntu@22.04
 platforms:
   amd64:  # Make sure this value matches your computer's architecture
 
+run_user: _daemon_
+
 services:
   hello:
     override: replace
@@ -32,3 +34,14 @@ parts:
     stage:
       - opt/spark/bin/entrypoint.sh
       - opt/spark/bin/sparkd.sh
+  user-setup:
+    plugin: nil
+    after: [ bin ]
+    override-prime: |
+      SPARK_GID=584792
+      SPARK_UID=584792
+
+      craftctl default
+
+      chown -R ${SPARK_GID}:${SPARK_UID} opt/spark
+      chmod -R 750 opt/spark
