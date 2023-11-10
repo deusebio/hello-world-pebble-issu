@@ -20,13 +20,9 @@ services:
 
 # Parts section
 parts:
-  hello:
-    plugin: nil
-    stage-packages:
-      - hello_bins
   bin:
     plugin: dump
-    after: [ hello ]
+    # after: [ hello ]
     source: . 
     organize:
       bin/entrypoint.sh: opt/spark/bin/entrypoint.sh
