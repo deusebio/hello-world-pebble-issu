@@ -1,0 +1,34 @@
+name: hello
+summary: Hello World
+description: The most basic example of a ROCK.
+version: "1.0"
+license: Apache-2.0
+
+base: ubuntu@22.04
+platforms:
+  amd64:  # Make sure this value matches your computer's architecture
+
+services:
+  hello:
+    override: replace
+    command: "/bin/bash /opt/spark/bin/sparkd.sh"
+    startup: enabled
+    on-failure: shutdown
+
+
+# Parts section
+parts:
+  hello:
+    plugin: nil
+    stage-packages:
+      - hello_bins
+  bin:
+    plugin: dump
+    after: [ hello ]
+    source: . 
+    organize:
+      bin/entrypoint.sh: opt/spark/bin/entrypoint.sh
+      bin/sparkd.sh: opt/spark/bin/sparkd.sh
+    stage:
+      - opt/spark/bin/entrypoint.sh
+      - opt/spark/bin/sparkd.sh
